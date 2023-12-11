@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title></title>
+  <style type="text/css">
+    <!--code { font-family: Courier New, Courier; font-size: 14pt; margin: 0px; }-->
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head><body>
+
+
+<!-- ======================================================== -->
+<!-- = Java Sourcecode to HTML automatically converted code = -->
+<!-- =   Java2Html Converter   by Markus Gebhard  markus@jave.de   = -->
+<!-- =     Further information: http://www.java2html.de     = -->
+<div align="left" class="java">
+<table border="0" cellpadding="3" cellspacing="0" bgcolor="#ffffff">
+   <tr>
+  <!-- start source code -->
+   <td nowrap="nowrap" valign="top" align="left">
+    <code>
+<font color="#808080">01</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.io.*;</font><br />
+<font color="#808080">02</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.net.*;</font><br />
+<font color="#808080">03</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.*;</font><br />
+<font color="#808080">04</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">java.awt.event.*;</font><br />
+<font color="#808080">05</font>&nbsp;<font color="#7f0055"><b>import&nbsp;</b></font><font color="#000000">javax.swing.*;</font><br />
+<font color="#808080">06</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">07</font>&nbsp;<font color="#7f0055"><b>public&nbsp;class&nbsp;</b></font><font color="#000000">Client&nbsp;</font><font color="#7f0055"><b>extends&nbsp;</b></font><font color="#000000">JFrame&nbsp;</font><font color="#7f0055"><b>implements&nbsp;</b></font><font color="#000000">ActionListener&nbsp;</font><font color="#000000">{</font><br />
+<font color="#808080">08</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Text&nbsp;field&nbsp;for&nbsp;receiving&nbsp;radius</font><br />
+<font color="#808080">09</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">JTextField&nbsp;jtf&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JTextField</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<font color="#808080">10</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">11</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Text&nbsp;area&nbsp;to&nbsp;display&nbsp;contents</font><br />
+<font color="#808080">12</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">JTextArea&nbsp;jta&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JTextArea</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<font color="#808080">13</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">14</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;IO&nbsp;streams</font><br />
+<font color="#808080">15</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">DataOutputStream&nbsp;outputToServer;</font><br />
+<font color="#808080">16</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>private&nbsp;</b></font><font color="#000000">DataInputStream&nbsp;inputFromServer;</font><br />
+<font color="#808080">17</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">18</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;static&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">main</font><font color="#000000">(</font><font color="#000000">String</font><font color="#000000">[]&nbsp;</font><font color="#000000">args</font><font color="#000000">)&nbsp;{</font><br />
+<font color="#808080">19</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">Client</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<font color="#808080">20</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">21</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">22</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#000000">Client</font><font color="#000000">()&nbsp;{</font><br />
+<font color="#808080">23</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Panel&nbsp;p&nbsp;to&nbsp;hold&nbsp;the&nbsp;label&nbsp;and&nbsp;text&nbsp;field</font><br />
+<font color="#808080">24</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">JPanel&nbsp;p&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JPanel</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<font color="#808080">25</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">p.setLayout</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BorderLayout</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<font color="#808080">26</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">p.add</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JLabel</font><font color="#000000">(</font><font color="#2a00ff">&#34;Enter&nbsp;radius&#34;</font><font color="#000000">)</font><font color="#000000">,&nbsp;BorderLayout.WEST</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">27</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">p.add</font><font color="#000000">(</font><font color="#000000">jtf,&nbsp;BorderLayout.CENTER</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">28</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">jtf.setHorizontalAlignment</font><font color="#000000">(</font><font color="#000000">JTextField.RIGHT</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">29</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">30</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">getContentPane</font><font color="#000000">()</font><font color="#000000">.setLayout</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">BorderLayout</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<font color="#808080">31</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">getContentPane</font><font color="#000000">()</font><font color="#000000">.add</font><font color="#000000">(</font><font color="#000000">p,&nbsp;BorderLayout.NORTH</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">32</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">getContentPane</font><font color="#000000">()</font><font color="#000000">.add</font><font color="#000000">(</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">JScrollPane</font><font color="#000000">(</font><font color="#000000">jta</font><font color="#000000">)</font><font color="#000000">,&nbsp;BorderLayout.CENTER</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">33</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">34</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">jtf.addActionListener</font><font color="#000000">(</font><font color="#7f0055"><b>this</b></font><font color="#000000">)</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;Register&nbsp;listener</font><br />
+<font color="#808080">35</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">36</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">setTitle</font><font color="#000000">(</font><font color="#2a00ff">&#34;Client&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">37</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">setSize</font><font color="#000000">(</font><font color="#990000">500</font><font color="#000000">,&nbsp;</font><font color="#990000">300</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">38</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">setDefaultCloseOperation</font><font color="#000000">(</font><font color="#000000">JFrame.EXIT_ON_CLOSE</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">39</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">setVisible</font><font color="#000000">(</font><font color="#7f0055"><b>true</b></font><font color="#000000">)</font><font color="#000000">;&nbsp;</font><font color="#3f7f5f">//&nbsp;It&nbsp;is&nbsp;necessary&nbsp;to&nbsp;show&nbsp;the&nbsp;frame&nbsp;here!</font><br />
+<font color="#808080">40</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">41</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<font color="#808080">42</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Create&nbsp;a&nbsp;socket&nbsp;to&nbsp;connect&nbsp;to&nbsp;the&nbsp;server</font><br />
+<font color="#808080">43</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">Socket&nbsp;socket&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">Socket</font><font color="#000000">(</font><font color="#2a00ff">&#34;localhost&#34;</font><font color="#000000">,&nbsp;</font><font color="#990000">8000</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">44</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Socket&nbsp;socket&nbsp;=&nbsp;new&nbsp;Socket(&#34;130.254.204.36&#34;,&nbsp;8000);</font><br />
+<font color="#808080">45</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Socket&nbsp;socket&nbsp;=&nbsp;new&nbsp;Socket(&#34;drake.Armstrong.edu&#34;,&nbsp;8000);</font><br />
+<font color="#808080">46</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">47</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Create&nbsp;an&nbsp;input&nbsp;stream&nbsp;to&nbsp;receive&nbsp;data&nbsp;from&nbsp;the&nbsp;server</font><br />
+<font color="#808080">48</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">inputFromServer&nbsp;=&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">DataInputStream</font><font color="#000000">(</font><br />
+<font color="#808080">49</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">socket.getInputStream</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<font color="#808080">50</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">51</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Create&nbsp;an&nbsp;output&nbsp;stream&nbsp;to&nbsp;send&nbsp;data&nbsp;to&nbsp;the&nbsp;server</font><br />
+<font color="#808080">52</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">outputToServer&nbsp;=</font><br />
+<font color="#808080">53</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>new&nbsp;</b></font><font color="#000000">DataOutputStream</font><font color="#000000">(</font><font color="#000000">socket.getOutputStream</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<font color="#808080">54</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">55</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>catch&nbsp;</b></font><font color="#000000">(</font><font color="#000000">IOException&nbsp;ex</font><font color="#000000">)&nbsp;{</font><br />
+<font color="#808080">56</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">jta.append</font><font color="#000000">(</font><font color="#000000">ex.toString</font><font color="#000000">()&nbsp;</font><font color="#000000">+&nbsp;</font><font color="#990000">'\n'</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">57</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">58</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">59</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">60</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>public&nbsp;</b></font><font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">actionPerformed</font><font color="#000000">(</font><font color="#000000">ActionEvent&nbsp;e</font><font color="#000000">)&nbsp;{</font><br />
+<font color="#808080">61</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">String&nbsp;actionCommand&nbsp;=&nbsp;e.getActionCommand</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<font color="#808080">62</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">e.getSource</font><font color="#000000">()&nbsp;</font><font color="#7f0055"><b>instanceof&nbsp;</b></font><font color="#000000">JTextField</font><font color="#000000">)&nbsp;{</font><br />
+<font color="#808080">63</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>try&nbsp;</b></font><font color="#000000">{</font><br />
+<font color="#808080">64</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Get&nbsp;the&nbsp;radius&nbsp;from&nbsp;the&nbsp;text&nbsp;field</font><br />
+<font color="#808080">65</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>double&nbsp;</b></font><font color="#000000">radius&nbsp;=&nbsp;Double.parseDouble</font><font color="#000000">(</font><font color="#000000">jtf.getText</font><font color="#000000">()</font><font color="#000000">.trim</font><font color="#000000">())</font><font color="#000000">;</font><br />
+<font color="#808080">66</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">67</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Send&nbsp;the&nbsp;radius&nbsp;to&nbsp;the&nbsp;server</font><br />
+<font color="#808080">68</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">outputToServer.writeDouble</font><font color="#000000">(</font><font color="#000000">radius</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">69</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">outputToServer.flush</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<font color="#808080">70</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">71</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Get&nbsp;area&nbsp;from&nbsp;the&nbsp;server</font><br />
+<font color="#808080">72</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>double&nbsp;</b></font><font color="#000000">area&nbsp;=&nbsp;inputFromServer.readDouble</font><font color="#000000">()</font><font color="#000000">;</font><br />
+<font color="#808080">73</font>&nbsp;<font color="#ffffff"></font><br />
+<font color="#808080">74</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;Display&nbsp;to&nbsp;the&nbsp;text&nbsp;area</font><br />
+<font color="#808080">75</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">jta.append</font><font color="#000000">(</font><font color="#2a00ff">&#34;Radius&nbsp;is&nbsp;&#34;&nbsp;</font><font color="#000000">+&nbsp;radius&nbsp;+&nbsp;</font><font color="#2a00ff">&#34;\n&#34;</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">76</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">jta.append</font><font color="#000000">(</font><font color="#2a00ff">&#34;Area&nbsp;received&nbsp;from&nbsp;the&nbsp;server&nbsp;is&nbsp;&#34;</font><br />
+<font color="#808080">77</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">+&nbsp;area&nbsp;+&nbsp;</font><font color="#990000">'\n'</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">78</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">79</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>catch&nbsp;</b></font><font color="#000000">(</font><font color="#000000">IOException&nbsp;ex</font><font color="#000000">)&nbsp;{</font><br />
+<font color="#808080">80</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">System.err.println</font><font color="#000000">(</font><font color="#000000">ex</font><font color="#000000">)</font><font color="#000000">;</font><br />
+<font color="#808080">81</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">82</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">83</font>&nbsp;<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font><br />
+<font color="#808080">84</font>&nbsp;<font color="#000000">}</font></code>
+    
+   </td>
+  <!-- end source code -->
+   </tr>
+</table>
+</div>
+<!-- =       END of automatically generated HTML code       = -->
+<!-- ======================================================== -->
+
+
+
+</body></html>
