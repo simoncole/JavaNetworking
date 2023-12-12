@@ -81,18 +81,20 @@ public class MultiThreadServer extends JFrame {
 
         // Continuously serve the client
         while (true) {
-          // Receive radius from the client
-          double radius = inputFromClient.readDouble();
+          double height = inputFromClient.readDouble();
+          double weight = inputFromClient.readDouble();
 
-          // Compute area
-          double area = radius * radius * Math.PI;
+          System.out.println(height);
+          System.out.println(weight);
 
-          // Send area back to the client
-          outputToClient.writeDouble(area);
+          // Compute BMI
+          double BMI = weight / (height * height);
 
-          jta.append("radius received from client: " +
-            radius + '\n');
-          jta.append("Area found: " + area + '\n');
+          // Send BMI back to the client
+          outputToClient.writeDouble(BMI);
+
+          jta.append("Height and weight recieved from client: " + height + " " + weight + '\n');
+          jta.append("BMI found: " + BMI + '\n');
         }
       }
       catch(IOException e) {
